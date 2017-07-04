@@ -1,8 +1,7 @@
-var Optimise = function(ww,hh,toDraw,damper){
+var Optimise = function(ww,hh,toDraw,damper,funcDomain){
   var grad = function(x, func) {
     return ( (func(x + 1e-5) - func(x - 1e-5)) / 2e-5) ;
 }
-  , funcDomain = [0, 15]
   , svgm = d3.select('.test').append('svg')
   , border = 5
   , xp = []
