@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="style.css" rel="stylesheet" type="text/css">
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="oned.js"></script>
+<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset X' id='resetX'>
+<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset Y' id='resetY'>
+<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset X and Y' id='resetXY'>
+<div class="test"></div>
+<script>
+var damper=1e-3;
+Optimise(960,500,function(x) {
+    //Interaction potential (Lennard-Jones)
+    var y = x * x * x;
+    y = y * y;
+    return -(1.2e7 * y - y * y) / 1e10;
+},damper
+);
+</script>

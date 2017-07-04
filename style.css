@@ -1,0 +1,34 @@
+.axis {
+  stroke-width: 0.5px;
+  stroke-dasharray: 5;
+}
+
+.line {
+  stroke: orange;
+  stroke-width: 4;
+  fill: none;
+}
+
+.border {
+  stroke: brown;
+  stroke-width: 4;
+  fill: lightgreen;
+}
+
+.grapharea {
+  pointer-events: all;
+  fill: none;
+}
+
+.particles {
+  fill: green;
+}
+
+.particle {
+  fill: blue;
+}
+.optres{
+font:20px Calibri;
+stroke-width:inherit;
+fill:brown
+}
