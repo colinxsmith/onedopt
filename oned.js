@@ -33,20 +33,24 @@ var Optimise = function(ww,hh,toDraw,damper,funcDomain,dotpos,resetx,resety,rese
 	)
   , x = d3.scaleLinear().domain([xmin, xmax]).nice().range([0, width])
   , y = d3.scaleLinear().domain([ymin, ymax]).nice().range([height, 0])
-  , xAxis = d3.axisBottom(x).tickSize(-height)//x grid lines
+  , xAxis = d3.axisBottom(x)
+	.tickSize(-height)//x grid lines
 	.ticks(5)
-  , yAxis = d3.axisLeft(y).tickSize(-width)//y grid lines
+  , yAxis = d3.axisLeft(y)
+	.tickSize(-width)//y grid lines
 	.ticks(5);
 
 var svg = svgm.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
 	.append("g")
 	.attr("transform", `translate(${margin.left},${margin.top})`)
-  , svgX = svg.append('g').attr('class', 'x axis').attr('transform', `translate(0, ${height})`).attr('class', 'axis').call(xAxis)
-  , svgY = svg.append('g').attr('class', 'y axis').attr('class', 'axis').call(yAxis)
-  , line = d3.line().x(function(d) {
+  , svgX = svg.append('g').attr('transform', `translate(0, ${height})`).attr('class', 'axis').call(xAxis)
+  , svgY = svg.append('g').attr('class', 'axis').call(yAxis)
+  , line = d3.line()
+	.x(function(d) {
 		return xAxis.scale()(d.x);
-	}).y(function(d) {
+	})
+	.y(function(d) {
 		return yAxis.scale()(d.y);
 	})
   , svgLine = svg.datum(datas)
@@ -65,7 +69,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 }).attr('cy', function(d) {
     return yAxis.scale()(toDraw(d))
 }).attr('r', '3px')
-  , svgBigdot = svg.append('circle')
+  , svgMovingPoint = svg.append('circle')
   .attr('class', 'particle')
   .attr('cx', xAxis.scale()(dotpos))
   .attr('cy', yAxis.scale()(toDraw(dotpos)))
@@ -76,17 +80,17 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 		//Steepest descent step
 		if (Math.abs(step) > 1e-8) {
 			d3.active(this).attr('cx', xAxis.scale()((dotpos += step))).attr('cy', yAxis.scale()(toDraw(dotpos))).attr('r', function() {
-				var rad=Math.max(4,Math.abs(step));
+				var rad=Math.min(20,Math.max(4,Math.abs(step/damper)));
 				return `${rad}px`;
 			}).transition().on("start", repeat);
 		} else {
 			//Write the results of the optimisation to a new circle onject, then the zooming works
-			svgBigdot1.attr('cx', this.getAttribute('cx')).attr('cy', this.getAttribute('cy')).attr('r', this.getAttribute('r'));
+			svgMovingPointCopy.attr('cx', this.getAttribute('cx')).attr('cy', this.getAttribute('cy')).attr('r', this.getAttribute('r'));
 			this.setAttribute('r', '0px');
 			optPos.html(`Optimal position is ${dotpos.toFixed(5)}, function value is ${(toDraw(dotpos)).toFixed(1)}`);
 		}
 	})
-  , svgBigdot1 = svg.append('circle')
+  , svgMovingPointCopy = svg.append('circle')
 	.attr('class', 'particle')
   , optPos = svg.append('text')
 	.attr('class','optres')
@@ -109,7 +113,8 @@ var rect = svg.append("rect")
 		xAxis.scale(newXScale);
 		var newYScale = transform.rescaleY(zoomScaleY);
 		yAxis.scale(newYScale);
-		zoomed(event.transform);
+		zoomed();
+		console.log(`${transform.k}:        (${transform.x} , ${transform.y})`);
 	}).on('end', function() {
 		rect.property('__zoom', d3.zoomIdentity);
 	});
@@ -127,17 +132,18 @@ var zoomed = function() {
     });
     console.log(dotpos);
     try {
-        //Can't update svgBigdot on zoom... too late exception... see transtion() life-cycle rules
-        svgBigdot
+        //Can't update svgMovingPoint on zoom... too late exception... see transtion() life-cycle rules
+        svgMovingPoint
         .attr('cx', xAxis.scale()((dotpos)))
         .attr('cy', yAxis.scale()(toDraw(dotpos)));
     } catch (err) {
         console.log(err.message);
     }
-    svgBigdot1
+    svgMovingPointCopy
     .style('fill','red')
     .attr('cx', xAxis.scale()((dotpos)))
-    .attr('cy', yAxis.scale()(toDraw(dotpos)));
+    .attr('cy', yAxis.scale()(toDraw(dotpos)))
+;
 };
 
 // reset x & y  

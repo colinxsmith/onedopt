@@ -13,7 +13,7 @@
 .border {
   stroke: #751818;
   stroke-width: 4;
-  fill: #58c314;
+  fill: #c4ffc0;
 }
 
 .grapharea {
@@ -26,7 +26,7 @@
 }
 
 .particle {
-  fill: #9d00ff;
+  fill: #bf0aec;
 }
 .optres{
 font:22px Calibri;
@@ -34,7 +34,7 @@ stroke-width:inherit;
 fill:#080f23
 }
 .butt{
-color:#c32f2f;
+color:#730b0b;
 text-align:center;
 background-color:#c4ffc0;
 }
