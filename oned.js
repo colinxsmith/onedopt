@@ -60,7 +60,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
   , xp = d3.scaleLinear()
 	  .domain(funcDomain)
 	  .ticks(funcDomain[1] - funcDomain[0] + 1)
-  , svgPoints = svg.selectAll('circle')
+  , svgPoints = svg.append('g').selectAll('circle')
   .data(xp).enter()
   .append('circle')
   .attr('class', 'particles')
@@ -90,7 +90,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 			optPos.html(`Optimal position is ${dotpos.toFixed(5)}, function value is ${(toDraw(dotpos)).toFixed(1)}`);
 		}
 	})
-  , svgMovingPointCopy = svg.append('circle')
+  , svgMovingPointCopy = svg.append('g').append('circle')
 	.attr('class', 'particle')
   , optPos = svg.append('text')
 	.attr('class','optres')
@@ -98,7 +98,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 	.attr('dy',height-20)
 	;
 
-var rect = svg.append("rect")
+var rect = svg.append('g').append("rect")
 	.attr('class', 'grapharea')
 	.attr("width", width)
 	.attr("height", height),
