@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<title>Watch the dot.</title>
 <link href="style.css" rel="stylesheet" type="text/css">
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="oned.js"></script>
-<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset X' id='resetX'>
-<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset Y' id='resetY'>
-<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset X and Y' id='resetXY'>
+<input type='button' class="butt" value='Reset X' id='resetX'>
+<input type='button' class="butt" value='Reset Y' id='resetY'>
+<input type='button' class="butt" value='Reset X and Y' id='resetXY'>
 <br></br>
 <script>
 var damper=1e-3;
@@ -19,9 +20,9 @@ Optimise(960,500,function(x) {
 );
 </script>
 <br></br>
-<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset X' id='resetX1'>
-<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset Y' id='resetY1'>
-<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset X and Y' id='resetXY1'>
+<input type='button' class="butt" value='Reset X' id='resetX1'>
+<input type='button' class="butt" value='Reset Y' id='resetY1'>
+<input type='button' class="butt" value='Reset X and Y' id='resetXY1'>
 <br></br>
 <script>
 Optimise(960,500,function(x) {
