@@ -1,18 +1,19 @@
 .axis {
   stroke-width: 0.5px;
   stroke-dasharray: 5;
+  font:18px Calibri;
 }
 
 .line {
-  stroke: orange;
+  stroke: #ffd400;
   stroke-width: 4;
   fill: none;
 }
 
 .border {
-  stroke: brown;
+  stroke: #751818;
   stroke-width: 4;
-  fill: lightgreen;
+  fill: #58c314;
 }
 
 .grapharea {
@@ -25,10 +26,10 @@
 }
 
 .particle {
-  fill: blue;
+  fill: #9d00ff;
 }
 .optres{
-font:20px Calibri;
+font:22px Calibri;
 stroke-width:inherit;
-fill:brown
+fill:#080f23
 }
