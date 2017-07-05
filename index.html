@@ -6,7 +6,7 @@
 <input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset X' id='resetX'>
 <input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset Y' id='resetY'>
 <input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset X and Y' id='resetXY'>
-<div class="test"></div>
+<br></br>
 <script>
 var damper=1e-3;
 Optimise(960,500,function(x) {
@@ -14,6 +14,17 @@ Optimise(960,500,function(x) {
     var y = x * x * x;
     y = y * y;
     return -(1.2e7 * y - y * y) / 1e10;
-},damper,[0,15]
+},damper,[0,15],'#resetX','#resetY','#resetXY'
+);
+</script>
+<br></br>
+<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset X' id='resetX1'>
+<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset Y' id='resetY1'>
+<input type='button' style="color:blue;text-align:center;background-color:pink" value='Reset X and Y' id='resetXY1'>
+<br></br>
+<script>
+Optimise(960,500,function(x) {
+ return((x-6)*(x-6));
+},0.5,[-1,15],'#resetX1','#resetY1','#resetXY1'
 );
 </script>

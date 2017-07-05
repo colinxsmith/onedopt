@@ -1,8 +1,8 @@
-var Optimise = function(ww,hh,toDraw,damper,funcDomain){
+var Optimise = function(ww,hh,toDraw,damper,funcDomain,resetx,resety,resetxy){
   var grad = function(x, func) {
     return ( (func(x + 1e-5) - func(x - 1e-5)) / 2e-5) ;
 }
-  , svgm = d3.select('.test').append('svg')
+  , svgm = d3.select('body').append('svg')
   , border = 5
   , xp = []
   , dotpos = 15
@@ -142,17 +142,17 @@ var zoomed = function() {
 };
 
 // reset x & y  
-d3.select('#resetXY').on('click', function() {
+d3.select(resetxy).on('click', function() {
     xAxis.scale(x);
     yAxis.scale(y);
     zoomed();
 })
 
-d3.select('#resetY').on('click', function() {
+d3.select(resety).on('click', function() {
     yAxis.scale(y);
     zoomed();
 })
-d3.select('#resetX').on('click', function() {
+d3.select(resetx).on('click', function() {
     xAxis.scale(x);
     zoomed();
 })
