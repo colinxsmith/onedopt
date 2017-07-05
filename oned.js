@@ -1,11 +1,10 @@
-var Optimise = function(ww,hh,toDraw,damper,funcDomain,resetx,resety,resetxy){
+var Optimise = function(ww,hh,toDraw,damper,funcDomain,dotpos,resetx,resety,resetxy){
   var grad = function(x, func) {
     return ( (func(x + 1e-5) - func(x - 1e-5)) / 2e-5) ;
 }
   , svgm = d3.select('body').append('svg')
   , border = 5
   , xp = []
-  , dotpos = 15
   , outerborder = svgm.append('rect').attr("class", "border").attr('x', border).attr('y', border).attr('width', ww - border * 2).attr('height', hh - border * 2)
   , margin = {
     top: 20,
