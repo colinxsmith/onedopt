@@ -87,7 +87,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 			//Write the results of the optimisation to a new circle onject, then the zooming works
 			svgMovingPointCopy.attr('cx', this.getAttribute('cx')).attr('cy', this.getAttribute('cy')).attr('r', this.getAttribute('r'));
 			this.setAttribute('r', '0px');
-			optPos.html(`Optimal position is ${dotpos.toFixed(5)}, function value is ${(toDraw(dotpos)).toFixed(1)}`);
+			optPos.html(`Optimal position is ${dotpos.toFixed(3)}, function value is ${(toDraw(dotpos)).toFixed(3)}`);
 		}
 	})
   , svgMovingPointCopy = svg.append('g').append('circle')
