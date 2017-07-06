@@ -1,4 +1,5 @@
 var Optimise = function(ww,hh,toDraw,damper,funcDomain,dotpos,resetx,resety,resetxy){
+	console.log(toDraw);
   var grad = function(x, func) {
     return ( (func(x + 1e-5) - func(x - 1e-5)) / 2e-5) ;
 }
@@ -60,7 +61,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
   , xp = d3.scaleLinear()
 	  .domain(funcDomain)
 	  .ticks(funcDomain[1] - funcDomain[0] + 1)
-  , svgPoints = svg.append('g').selectAll('circle')
+  , svgPoints = svg.append('g').selectAll('circles')
   .data(xp).enter()
   .append('circle')
   .attr('class', 'particles')
@@ -80,7 +81,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 		//Steepest descent step
 		if (Math.abs(step) > 1e-8) {
 			d3.active(this).attr('cx', xAxis.scale()((dotpos += step))).attr('cy', yAxis.scale()(toDraw(dotpos))).attr('r', function() {
-				var rad=Math.min(20,Math.max(4,Math.abs(step/damper)));
+				var rad=Math.min(50,Math.max(10,Math.abs(step/damper)));
 				return `${rad}px`;
 			}).transition().on("start", repeat);
 		} else {
@@ -97,12 +98,11 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 	.attr('dx',20)
 	.attr('dy',height-20)
 	;
-
 var rect = svg.append('g').append("rect")
 	.attr('class', 'grapharea')
 	.attr("width", width)
-	.attr("height", height),
-	zoomScaleX, zoomScaleY, 
+	.attr("height", height)
+	,	zoomScaleX, zoomScaleY, 
 	zoom = d3.zoom().on('start', function() {
 		zoomScaleX = xAxis.scale();
 		zoomScaleY = yAxis.scale();
@@ -163,4 +163,7 @@ d3.select(resetx).on('click', function() {
 })
 rect.on('dblclick.zoom', null);
 //disable
+
+
+
 };
