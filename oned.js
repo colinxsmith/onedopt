@@ -19,7 +19,7 @@ var Optimise = function(ww,hh,toDraw,damper,funcDomain,dotpos,resetx,resety,rese
   , xmin = 1e16
   , ymin = 1e16
   , ymax = -1e16
-  , datas = d3.scaleLinear().domain(funcDomain).ticks(100).map(i=>{
+  , datas = d3.scaleLinear().domain(funcDomain).ticks(50).map(i=>{
     var x = i;
     var y = toDraw(x);
     xmin = Math.min(xmin, x);
@@ -54,7 +54,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 	.y(function(d) {
 		return yAxis.scale()(d.y);
 	})
-	.curve(d3.curveCardinal)
+	.curve(d3.curveCardinal.tension(0.5))
   , svgLine = svg.datum(datas)
 	  .append('path')
 	  .attr('class', 'line')
@@ -103,7 +103,12 @@ var rect = svg.append('g').append("rect")
 	.attr('class', 'grapharea')
 	.attr("width", width)
 	.attr("height", height)
-	,	zoomScaleX, zoomScaleY, 
+	.on('click.zoom',function(){
+		var mouse=d3.mouse(this);
+		console.log(`x:${mouse[0]} y:${mouse[1]}`);
+		console.log(`x    = ${xAxis.scale().invert(mouse[0])}`);
+		console.log(`f(x) = ${yAxis.scale().invert(mouse[1])} (${toDraw(xAxis.scale().invert(mouse[0]))})`);
+	})	,	zoomScaleX, zoomScaleY, 
 	zoom = d3.zoom().on('start', function() {
 		zoomScaleX = xAxis.scale();
 		zoomScaleY = yAxis.scale();
@@ -121,6 +126,7 @@ var rect = svg.append('g').append("rect")
 	});
 	
 rect.call(zoom);
+
 
 var zoomed = function() {
     svgX.call(xAxis);
