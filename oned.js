@@ -18,7 +18,7 @@ var Optimise = function(ww,hh,toDraw,damper,funcDomain,dotpos,resetx,resety,rese
   , xmin = 1e16
   , ymin = 1e16
   , ymax = -1e16
-  , datas = d3.scaleLinear().domain(funcDomain).ticks(10000).map(i=>{
+  , datas = d3.scaleLinear().domain(funcDomain).ticks(100).map(i=>{
     var x = i;
     var y = toDraw(x);
     xmin = Math.min(xmin, x);
@@ -53,6 +53,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 	.y(function(d) {
 		return yAxis.scale()(d.y);
 	})
+	.curve(d3.curveCardinal)
   , svgLine = svg.datum(datas)
 	  .append('path')
 	  .attr('class', 'line')
