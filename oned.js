@@ -106,8 +106,8 @@ var rect = svg.append('g').append("rect")
 	.on('click.zoom',function(){
 		var mouse=d3.mouse(this);
 		console.log(`x:${mouse[0]} y:${mouse[1]}`);
-		console.log(`x    = ${xAxis.scale().invert(mouse[0])}`);
-		console.log(`f(x) = ${yAxis.scale().invert(mouse[1])} (${toDraw(xAxis.scale().invert(mouse[0]))})`);
+		console.log(`x = ${xAxis.scale().invert(mouse[0])}`);
+		console.log(`y = ${yAxis.scale().invert(mouse[1])} (f(x) = ${toDraw(xAxis.scale().invert(mouse[0]))})`);
 	})	,	zoomScaleX, zoomScaleY, 
 	zoom = d3.zoom().on('start', function() {
 		zoomScaleX = xAxis.scale();
