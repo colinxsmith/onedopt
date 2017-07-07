@@ -98,17 +98,13 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 	.attr('class','optres')
 	.attr('dx',20)
 	.attr('dy',height-20)
+  ,	tool = d3.select("body").append("div").attr("class", "tool");
 	;
 var rect = svg.append('g').append("rect")
 	.attr('class', 'grapharea')
 	.attr("width", width)
 	.attr("height", height)
-	.on('click.zoom',function(){
-		var mouse=d3.mouse(this);
-		console.log(`x:${mouse[0]} y:${mouse[1]}`);
-		console.log(`x = ${xAxis.scale().invert(mouse[0])}`);
-		console.log(`y = ${yAxis.scale().invert(mouse[1])} (f(x) = ${toDraw(xAxis.scale().invert(mouse[0]))})`);
-	})	,	zoomScaleX, zoomScaleY, 
+		,	zoomScaleX, zoomScaleY, 
 	zoom = d3.zoom().on('start', function() {
 		zoomScaleX = xAxis.scale();
 		zoomScaleY = yAxis.scale();
@@ -126,6 +122,38 @@ var rect = svg.append('g').append("rect")
 	});
 	
 rect.call(zoom);
+	rect
+	.on('click',function(){
+		var mouse=d3.mouse(this);
+		if(Math.abs(yAxis.scale().invert(mouse[1]) - toDraw(xAxis.scale().invert(mouse[0]))) <  Math.abs(toDraw(xAxis.scale().invert(mouse[0])))){
+		console.log(`x:${mouse[0]} y:${mouse[1]}`);
+		console.log(`x:${d3.event.pageX} y:${d3.event.pageY}`);
+		console.log(`x    = ${xAxis.scale().invert(mouse[0])}`);
+		console.log(`f(x) = ${yAxis.scale().invert(mouse[1])} (${toDraw(xAxis.scale().invert(mouse[0]))})`);
+		tool.html(`x    = ${xAxis.scale().invert(mouse[0])}<br>f(x) = ${toDraw(xAxis.scale().invert(mouse[0]))}`)
+			.style("left", `${d3.event.pageX}px`)
+			.style("top", `${d3.event.pageY}px`)
+			.style("display", "inline-block")
+				.transition()
+				.duration(200)
+			;
+		}
+	else{
+		console.log((yAxis.scale().invert(mouse[1])  / toDraw(xAxis.scale().invert(mouse[0])) - 1));
+		tool
+		.style('display','none')
+				.transition()
+				.duration(200)
+		;
+	}
+	})
+	.on('mouseout',function(){
+		tool.style("display", "none")
+				.transition()
+				.duration(200)
+		;
+	})
+	;
 
 
 var zoomed = function() {
