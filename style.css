@@ -38,3 +38,13 @@ color:#730b0b;
 text-align:center;
 background-color:#c4ffc0;
 }
+.tool{
+  position: absolute;
+  text-align: center;
+  padding: 2px;
+  font: 20px Calibri,sans-serif;
+  background: #e3e8b3;
+  border: 10px;
+  border-radius: 8px;
+  pointer-events: none;
+}
