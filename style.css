@@ -39,12 +39,13 @@ text-align:center;
 background-color:#c4ffc0;
 }
 .tool{
-  position: absolute;
+  position:absolute;
   text-align: center;
-  padding: 2px;
+  padding: 3px;
   font: 20px Calibri,sans-serif;
-  background: #e3e8b3;
-  border: 10px;
-  border-radius: 8px;
+  background: #c3b3e8;
+  border: 15px;
+  border-radius: 10px;
   pointer-events: none;
+  display:inline-block;
 }

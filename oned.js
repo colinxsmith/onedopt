@@ -98,7 +98,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 	.attr('class','optres')
 	.attr('dx',20)
 	.attr('dy',height-20)
-  ,	tool = d3.select("body").append("div").attr("class", "tool");
+  ,	tool = d3.select("body").append("g").attr("class", "tool");
 	;
 var rect = svg.append('g').append("rect")
 	.attr('class', 'grapharea')
@@ -137,22 +137,25 @@ rect.call(zoom);
 				.transition()
 				.duration(200)
 			;
+		tool.attr('pos',xAxis.scale().invert(mouse[0]));
+		tool.attr('posdiff',/*xAxis.scale()*/(xAxis.scale().invert(mouse[0])-d3.event.pageX));
+		tool.attr('funcdiff',/*yAxis.scale()*/(toDraw(xAxis.scale().invert(mouse[0]))-d3.event.pageY));
 		}
-	else{
+		else{
 		console.log((yAxis.scale().invert(mouse[1])  / toDraw(xAxis.scale().invert(mouse[0])) - 1));
 		tool
 		.style('display','none')
 				.transition()
 				.duration(200)
 		;
-	}
+		}
 	})
-	.on('mouseout',function(){
+/*	.on('mouseout',function(){
 		tool.style("display", "none")
 				.transition()
 				.duration(200)
 		;
-	})
+	})*/
 	;
 
 
@@ -178,7 +181,11 @@ var zoomed = function() {
     .style('fill','red')
     .attr('cx', xAxis.scale()((dotpos)))
     .attr('cy', yAxis.scale()(toDraw(dotpos)))
-;
+	;
+	var pos=tool.attr('pos');
+
+	tool.style('left',(xAxis.scale()(pos)+/*xAxis.scale().invert*/(tool.attr('posdiff')))+'px')
+		.style('top',(yAxis.scale()(toDraw(pos))+/*yAxis.scale().invert*/(tool.attr('funcdiff')))+'px');
 };
 
 // reset x & y  
