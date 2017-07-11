@@ -117,6 +117,7 @@ var rect = svg.append('g').append("rect")
 		yAxis.scale(newYScale);
 		zoomed();
 		console.log(`${transform.k}:        (${transform.x} , ${transform.y})`);
+		console.log(`Tool tip coordinates: (${tool.attr('pos')} , ${tool.attr('funcpos')})`);
 	}).on('end', function() {
 		rect.property('__zoom', d3.zoomIdentity);
 	});
@@ -125,20 +126,22 @@ rect.call(zoom);
 	rect
 	.on('click',function(){
 		var mouse=d3.mouse(this);
+		var toolpos=[d3.event.pageX,d3.event.pageY];
+//		var toolpos=[mouse[0],yAxis.scale()(toDraw(xAxis.scale().invert(mouse[0])))];
 		if(Math.abs(yAxis.scale().invert(mouse[1]) - toDraw(xAxis.scale().invert(mouse[0]))) <  Math.abs(toDraw(xAxis.scale().invert(mouse[0])))){
 		console.log(`x:${mouse[0]} y:${mouse[1]}`);
 		console.log(`x:${d3.event.pageX} y:${d3.event.pageY}`);
 		console.log(`x    = ${xAxis.scale().invert(mouse[0])}`);
 		console.log(`f(x) = ${yAxis.scale().invert(mouse[1])} (${toDraw(xAxis.scale().invert(mouse[0]))})`);
 		tool.html(`x    = ${xAxis.scale().invert(mouse[0])}<br>f(x) = ${toDraw(xAxis.scale().invert(mouse[0]))}`)
-			.style("left", `${d3.event.pageX}px`)
-			.style("top", `${d3.event.pageY}px`)
+			.style("left", `${toolpos[0]}px`)
+			.style("top", `${toolpos[1]}px`)
 			.style("display", "inline-block")
 				.transition()
 				.duration(200)
 			;
-		tool.attr('pos',xAxis.scale().invert(d3.event.pageX));
-		tool.attr('funcpos',yAxis.scale().invert(d3.event.pageY));
+		tool.attr('pos',xAxis.scale().invert(toolpos[0]));
+		tool.attr('funcpos',yAxis.scale().invert(toolpos[1]));
 		}
 		else{
 		console.log((yAxis.scale().invert(mouse[1])  / toDraw(xAxis.scale().invert(mouse[0])) - 1));
@@ -178,14 +181,12 @@ var zoomed = function() {
     }
     svgMovingPointCopy
     .style('fill','red')
-    .attr('cx', xAxis.scale()((dotpos)))
+    .attr('cx', xAxis.scale()(      (dotpos)))
     .attr('cy', yAxis.scale()(toDraw(dotpos)))
 	;
-	var pos=tool.attr('pos')
-	, funcpos=tool.attr('funcpos');
 
-	tool.style('left',(xAxis.scale()       (pos) +'px'))
-		.style('top', (yAxis.scale()   (funcpos) +'px'));
+	tool.style('left',(xAxis.scale()       (tool.attr('pos')) +'px'))
+		.style('top', (yAxis.scale()   (tool.attr('funcpos')) +'px'));
 };
 
 // reset x & y  
