@@ -139,6 +139,7 @@ rect.call(zoom);
 		var mouse=d3.mouse(this);
 		var toolpos=[d3.event.pageX,d3.event.pageY];
 //		var toolpos=[mouse[0],yAxis.scale()(toDraw(xAxis.scale().invert(mouse[0])))];
+//		var toolpos=[mouse[0],mouse[1]];
 		if(Math.abs(yAxis.scale().invert(mouse[1]) - toDraw(xAxis.scale().invert(mouse[0]))) <  Math.abs(toDraw(xAxis.scale().invert(mouse[0])))){
 		console.log(`x:${mouse[0]} y:${mouse[1]}`);
 		console.log(`x:${toolpos[0]} y:${toolpos[1]}`);
