@@ -144,7 +144,7 @@ rect.call(zoom);
 		console.log(`x:${toolpos[0]} y:${toolpos[1]}`);
 		console.log(`x    = ${xAxis.scale().invert(mouse[0])}`);
 		console.log(`f(x) = ${yAxis.scale().invert(mouse[1])} (${toDraw(xAxis.scale().invert(mouse[0]))})`);
-		tool.html(`x    = ${xAxis.scale().invert(mouse[0])}<br>f(x) = ${toDraw(xAxis.scale().invert(mouse[0]))}`)
+		tool.html(`x    = ${xAxis.scale().invert(mouse[0]).toFixed(3)}<br>f(x) = ${toDraw(xAxis.scale().invert(mouse[0])).toFixed(3)}`)
 			.style("left", `${toolpos[0]}px`)
 			.style("top", `${toolpos[1]}px`)
 			.style("display", "inline-block")
