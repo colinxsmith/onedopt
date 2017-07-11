@@ -43,7 +43,7 @@ var Optimise = function(ww,hh,toDraw,damper,funcDomain,dotpos,resetx,resety,rese
 	.tickSize(-width)//y grid lines
 	.ticks(5)
   ,  wholexAxis= d3.axisBottom(wholex)
-  ,  wholeyAxis= d3.axisBottom(wholey);
+  ,  wholeyAxis= d3.axisLeft(wholey);
 
 var svg = svgm.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
