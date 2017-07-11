@@ -137,10 +137,9 @@ rect.call(zoom);
 				.transition()
 				.duration(200)
 			;
-		tool.attr('pos',xAxis.scale().invert(d3.event.pageX));
-		tool.attr('funcpos',yAxis.scale().invert(d3.event.pageY));
-//		tool.attr('posdiff', xAxis.scale()(mouse[0]                                             -d3.event.pageX));
-//		tool.attr('funcdiff',yAxis.scale()(mouse[1]                                             -d3.event.pageY));
+		tool.attr('pos',xAxis.scale().invert(mouse[0]));
+		tool.attr('posdiff',xAxis.scale()(mouse[0]-d3.event.pageX));
+		tool.attr('funcdiff',yAxis.scale()(mouse[1]-d3.event.pageY));
 		}
 		else{
 		console.log((yAxis.scale().invert(mouse[1])  / toDraw(xAxis.scale().invert(mouse[0])) - 1));
@@ -183,11 +182,10 @@ var zoomed = function() {
     .attr('cx', xAxis.scale()((dotpos)))
     .attr('cy', yAxis.scale()(toDraw(dotpos)))
 	;
-	var pos=tool.attr('pos')
-	, funcpos=tool.attr('funcpos');
+	var pos=tool.attr('pos');
 
-	tool.style('left',(xAxis.scale()       (pos) +'px'))
-		.style('top', (yAxis.scale()   (funcpos) +'px'));
+	tool.style('left',(xAxis.scale()(pos)-xAxis.scale().invert(tool.attr('posdiff')))+'px')
+		.style('top',(yAxis.scale()(toDraw(pos))-yAxis.scale().invert(tool.attr('funcdiff')))+'px');
 };
 
 // reset x & y  
