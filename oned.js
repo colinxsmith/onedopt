@@ -32,6 +32,8 @@ var Optimise = function(ww,hh,toDraw,damper,funcDomain,dotpos,resetx,resety,rese
 		}
 	}
 	)
+  , wholex = d3.scaleLinear().domain([xmin, xmax]).range([0, width+ margin.left + margin.right])
+  , wholey = d3.scaleLinear().domain([ymin, ymax]).range([height + margin.top + margin.bottom, 0])
   , x = d3.scaleLinear().domain([xmin, xmax]).nice().range([0, width])
   , y = d3.scaleLinear().domain([ymin, ymax]).nice().range([height, 0])
   , xAxis = d3.axisBottom(x)
@@ -39,7 +41,9 @@ var Optimise = function(ww,hh,toDraw,damper,funcDomain,dotpos,resetx,resety,rese
 	.ticks(5)
   , yAxis = d3.axisLeft(y)
 	.tickSize(-width)//y grid lines
-	.ticks(5);
+	.ticks(5)
+  ,  wholexAxis= d3.axisBottom(wholex)
+  ,  wholeyAxis= d3.axisBottom(wholey);
 
 var svg = svgm.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
@@ -103,10 +107,13 @@ var rect = svg.append('g').append("rect")
 	.attr('class', 'grapharea')
 	.attr("width", width)
 	.attr("height", height)
-		,	zoomScaleX, zoomScaleY, 
+		,	zoomScaleX, zoomScaleY
+		,	wholezoomScaleX, wholezoomScaleY, 
 	zoom = d3.zoom().on('start', function() {
 		zoomScaleX = xAxis.scale();
 		zoomScaleY = yAxis.scale();
+		wholezoomScaleX = wholexAxis.scale();
+		wholezoomScaleY = wholeyAxis.scale();
 	}).on('zoom', function() {
 		var event = d3.event;
 		var transform = event.transform;
@@ -116,6 +123,10 @@ var rect = svg.append('g').append("rect")
 		xAxis.scale(newXScale);
 		var newYScale = transform.rescaleY(zoomScaleY);
 		yAxis.scale(newYScale);
+		var wholenewXScale = transform.rescaleX(wholezoomScaleX);
+		wholexAxis.scale(wholenewXScale);
+		var wholenewYScale = transform.rescaleY(wholezoomScaleY);
+		wholeyAxis.scale(wholenewYScale);
 		zoomed();
 	}).on('end', function() {
 		rect.property('__zoom', d3.zoomIdentity);
@@ -130,7 +141,7 @@ rect.call(zoom);
 //		var toolpos=[mouse[0],yAxis.scale()(toDraw(xAxis.scale().invert(mouse[0])))];
 		if(Math.abs(yAxis.scale().invert(mouse[1]) - toDraw(xAxis.scale().invert(mouse[0]))) <  Math.abs(toDraw(xAxis.scale().invert(mouse[0])))){
 		console.log(`x:${mouse[0]} y:${mouse[1]}`);
-		console.log(`x:${d3.event.pageX} y:${d3.event.pageY}`);
+		console.log(`x:${toolpos[0]} y:${toolpos[1]}`);
 		console.log(`x    = ${xAxis.scale().invert(mouse[0])}`);
 		console.log(`f(x) = ${yAxis.scale().invert(mouse[1])} (${toDraw(xAxis.scale().invert(mouse[0]))})`);
 		tool.html(`x    = ${xAxis.scale().invert(mouse[0])}<br>f(x) = ${toDraw(xAxis.scale().invert(mouse[0]))}`)
@@ -140,8 +151,8 @@ rect.call(zoom);
 				.transition()
 				.duration(200)
 			;
-		tool.attr('pos',xAxis.scale().invert(toolpos[0]));
-		tool.attr('funcpos',yAxis.scale().invert(toolpos[1]));
+		tool.attr('pos',wholexAxis.scale().invert(toolpos[0]));
+		tool.attr('funcpos',wholeyAxis.scale().invert(toolpos[1]));
 		}
 		else{
 		console.log((yAxis.scale().invert(mouse[1])  / toDraw(xAxis.scale().invert(mouse[0])) - 1));
@@ -185,23 +196,27 @@ var zoomed = function() {
     .attr('cy', yAxis.scale()(toDraw(dotpos)))
 	;
 
-	tool.style('left',(xAxis.scale()       (tool.attr('pos')) +'px'))
-		.style('top', (yAxis.scale()   (tool.attr('funcpos')) +'px'));
+	tool.style('left',(wholexAxis.scale()       (tool.attr('pos')) +'px'))
+		.style('top', (wholeyAxis.scale()   (tool.attr('funcpos')) +'px'));
 };
 
 // reset x & y  
 d3.select(resetxy).on('click', function() {
     xAxis.scale(x);
     yAxis.scale(y);
+    wholexAxis.scale(wholex);
+    wholeyAxis.scale(wholey);
     zoomed();
 })
 
 d3.select(resety).on('click', function() {
     yAxis.scale(y);
+    wholeyAxis.scale(wholey);
     zoomed();
 })
 d3.select(resetx).on('click', function() {
     xAxis.scale(x);
+    wholexAxis.scale(wholex);
     zoomed();
 })
 rect.on('dblclick.zoom', null);
