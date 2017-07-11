@@ -98,7 +98,7 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 	.attr('class','optres')
 	.attr('dx',20)
 	.attr('dy',height-20)
-  ,	tool = d3.select("body").attr("class", "tool");
+  ,	tool = d3.select("body").append('g').attr("class", "tool");
 	;
 var rect = svg.append('g').append("rect")
 	.attr('class', 'grapharea')
