@@ -98,7 +98,6 @@ var svg = svgm.attr("width", width + margin.left + margin.right)
 	.attr('class','optres')
 	.attr('dx',20)
 	.attr('dy',height-20)
-  ,	tool = d3.select("body").append("div").attr("class", "tool");
 	;
 var rect = svg.append('g').append("rect")
 	.attr('class', 'grapharea')
@@ -111,16 +110,17 @@ var rect = svg.append('g').append("rect")
 	}).on('zoom', function() {
 		var event = d3.event;
 		var transform = event.transform;
+		console.log(`${transform.k}:        (${transform.x} , ${transform.y})`);
+		console.log(`Tool tip coordinates: (${tool.attr('pos')} , ${tool.attr('funcpos')})`);
 		var newXScale = transform.rescaleX(zoomScaleX);
 		xAxis.scale(newXScale);
 		var newYScale = transform.rescaleY(zoomScaleY);
 		yAxis.scale(newYScale);
 		zoomed();
-		console.log(`${transform.k}:        (${transform.x} , ${transform.y})`);
-		console.log(`Tool tip coordinates: (${tool.attr('pos')} , ${tool.attr('funcpos')})`);
 	}).on('end', function() {
 		rect.property('__zoom', d3.zoomIdentity);
 	});
+var	tool = d3.select("body").append("rect").attr("class", "tool");
 	
 rect.call(zoom);
 	rect
