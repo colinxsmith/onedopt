@@ -32,8 +32,8 @@ var Optimise = function(ww,hh,toDraw,damper,funcDomain,dotpos,resetx,resety,rese
 		}
 	}
 	)
-  , wholex = d3.scaleLinear().domain([xmin, xmax]).range([0, width+ margin.left + margin.right])
-  , wholey = d3.scaleLinear().domain([ymin, ymax]).range([height + margin.top + margin.bottom, 0])
+  , wholex = d3.scaleLinear().domain([0, 1000]).range([0,1000])
+  , wholey = d3.scaleLinear().domain([0, 1000]).range([1000, 0])
   , x = d3.scaleLinear().domain([xmin, xmax]).nice().range([0, width])
   , y = d3.scaleLinear().domain([ymin, ymax]).nice().range([height, 0])
   , xAxis = d3.axisBottom(x)
