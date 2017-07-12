@@ -7,7 +7,7 @@
 <input type='button' class="butt" value='Reset X' id='resetX'>
 <input type='button' class="butt" value='Reset Y' id='resetY'>
 <input type='button' class="butt" value='Reset X and Y' id='resetXY'>
-<br></br>
+<h1>Minimise Lennard-Jones 6-12 potential</h1>
 <script>
 var damper=1e-3;
 var startguess=15;
@@ -23,7 +23,7 @@ Optimise(960,500,function(x) {
 <input type='button' class="butt" value='Reset X' id='resetX1'>
 <input type='button' class="butt" value='Reset Y' id='resetY1'>
 <input type='button' class="butt" value='Reset X and Y' id='resetXY1'>
-<br></br>
+<h1>Minimise a sum of quadratic functions</h1>
 <script>
 Optimise(960,500,function(x) {
  return(10*(x-6)*(x-6)+80*(x-7)*(x-7))/90;
@@ -34,7 +34,7 @@ Optimise(960,500,function(x) {
 <input type='button' class="butt" value='Reset X' id='resetX2'>
 <input type='button' class="butt" value='Reset Y' id='resetY2'>
 <input type='button' class="butt" value='Reset X and Y' id='resetXY2'>
-<br></br>
+<h1>Minimise a negative Gaussian</h1>
 <script>
 Optimise(960,500,function(x) {
  return -Math.exp(-(10*(x-6)*(x-6)+80*(x-7)*(x-7))/90);
