@@ -32,8 +32,8 @@ var Optimise = function(ww,hh,toDraw,damper,funcDomain,dotpos,resetx,resety,rese
 		}
 	}
 	)
-  , wholex = d3.scaleLinear().domain([0, 1000]).range([0,1000])
-  , wholey = d3.scaleLinear().domain([0, 1000]).range([1000, 0])
+  , wholex = d3.scaleLinear().domain([0, 1]).range([0,1])
+  , wholey = d3.scaleLinear().domain([1,0]).range([1, 0])
   , x = d3.scaleLinear().domain([xmin, xmax]).nice().range([0, width])
   , y = d3.scaleLinear().domain([ymin, ymax]).nice().range([height, 0])
   , xAxis = d3.axisBottom(x)
@@ -131,7 +131,7 @@ var rect = svg.append('g').append("rect")
 	}).on('end', function() {
 		rect.property('__zoom', d3.zoomIdentity);
 	});
-var	tool = d3.select("body").append("rect").attr("class", "tool");
+var	tool = d3.select("body").append("div").attr("class", "tool");
 	
 rect.call(zoom);
 	rect
@@ -152,6 +152,8 @@ rect.call(zoom);
 				.transition()
 				.duration(200)
 			;
+		console.log(`${toolpos[0]} ${wholexAxis.scale().invert(toolpos[0])}`);
+		console.log(`${toolpos[1]} ${wholeyAxis.scale().invert(toolpos[1])}`);
 		tool.attr('pos',wholexAxis.scale().invert(toolpos[0]));
 		tool.attr('funcpos',wholeyAxis.scale().invert(toolpos[1]));
 		}
