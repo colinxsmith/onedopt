@@ -13,7 +13,14 @@
 .border {
   stroke: #751818;
   stroke-width: 4;
-  fill: #c4ffc0;
+  fill: url(#grad);//#c4ffc0;
+}
+.left {
+    stop-color: #c4ffc0;
+}
+
+.right {
+    stop-color: rgba(156, 107, 107, 0.52);
 }
 
 .grapharea {
